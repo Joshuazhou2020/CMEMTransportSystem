@@ -1,0 +1,6 @@
+echo "On: $1"
+echo "Off: $2"
+echo "Ver: $3"
+
+sed  's/intervalOn\=\d+\/intervalOn=$1;/' cord_gun_test.ino > cord_gun_test.ino
+

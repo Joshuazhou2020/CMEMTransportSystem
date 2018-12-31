@@ -1,0 +1,41 @@
+echo "On: $1"
+echo "Off: $2"
+echo "Ver: $3"
+
+export IFS=","
+
+cat test | while read a b c d; do if [ $a = "10" ]; then echo "$a:$b:$c:$d"; fi;  done
+
+echo "x:$a, t:$t, y:$b" 
+
+mv cord_gun/cord_gun.ino cord_gun/cord_gun.ino.in
+sed  "s/intervalOn\=[0-9]*/intervalOn=$1/g" cord_gun/cord_gun.ino.in > cord_gun/cord_gun.ino
+mv cord_gun/cord_gun.ino cord_gun/cord_gun.ino.in
+sed  "s/intervalOff\=[0-9]*/intervalOff=$2/g" cord_gun/cord_gun.ino.in > cord_gun/cord_gun.ino
+mv cord_gun/cord_gun.ino cord_gun/cord_gun.ino.in
+sed  "s/ver\=[0-9]*/ver=$3/g" cord_gun/cord_gun.ino.in > cord_gun/cord_gun.ino
+/Applications/Arduino.app/Contents/MacOS/Arduino --upload /Users/wendy_shi/Documents/Arduino/cord_gun/cord_gun.ino
+processing-java --sketch=/Users/wendy_shi/Documents/Processing/cord_gun --run
+
+
+
+tag=0
+x=0
+t=1000
+y=0
+
+
+# continue until $n equals 5
+while IFS=, read -r a b c d
+do
+if [ "$a" = "$1" ] 
+then
+ tag=$a
+ x=$b
+ t=$c
+ y=$d
+ echo "$a:$b:$c:$d"
+fi
+done < test
+
+echo "$tag:$x:$t:$y"
